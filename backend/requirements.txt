@@ -1,0 +1,9 @@
+django==5.2.*
+djangorestframework==3.16.*
+djangorestframework-simplejwt==5.5.*
+django-cors-headers==4.*
+python-decouple==3.8
+dj-database-url==3.*
+psycopg2-binary==2.9.*
+whitenoise==6.*
+gunicorn
