@@ -144,3 +144,6 @@ if not DEBUG:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
+    # Tell browsers to only use HTTPS for this host. Kept short and without
+    # includeSubDomains because onrender.com is a shared domain.
+    SECURE_HSTS_SECONDS = config("SECURE_HSTS_SECONDS", default=3600, cast=int)
