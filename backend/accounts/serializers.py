@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
 from rest_framework import serializers
 
@@ -26,7 +27,12 @@ class RegisterSerializer(serializers.Serializer):
     def validate(self, attrs):
         # Run Django's password rules (length, common passwords, too similar to username...).
         candidate = User(username=attrs["username"], first_name=attrs["display_name"])
-        validate_password(attrs["password"], user=candidate)
+        try:
+            validate_password(attrs["password"], user=candidate)
+        except DjangoValidationError as exc:
+            # File the messages under "password" so the form can show them
+            # next to the password box, not as a general error.
+            raise serializers.ValidationError({"password": list(exc.messages)})
         return attrs
 
     @transaction.atomic

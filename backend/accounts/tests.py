@@ -28,6 +28,14 @@ class AuthTests(APITestCase):
     def test_weak_password_rejected(self):
         self.assertEqual(self.register(password="12345678").status_code, 400)
 
+    def test_password_errors_are_reported_against_the_password_field(self):
+        res = self.register(password="Water")
+        self.assertEqual(res.status_code, 400)
+        self.assertIn("password", res.data)
+        # Every rule that failed is reported, not just the first.
+        self.assertGreaterEqual(len(res.data["password"]), 2)
+        self.assertFalse(User.objects.filter(username="new_student").exists())
+
     def test_duplicate_username_rejected_case_insensitively(self):
         self.register()
         self.assertEqual(self.register(username="NEW_STUDENT").status_code, 400)

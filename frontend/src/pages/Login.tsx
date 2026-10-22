@@ -12,13 +12,16 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
 
   if (user) return <Navigate to={from} replace />;
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    setSubmitted(true);
     setError("");
+    if (!username.trim() || !password) return;
     setBusy(true);
     try {
       await login(username.trim(), password);
@@ -36,22 +39,28 @@ export default function Login() {
 
   return (
     <AuthShell title="Log in" subtitle="Pick up where you left off.">
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <Field label="Username" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+      <form onSubmit={onSubmit} className="space-y-5" noValidate>
+        <Field
+          label="Username"
+          autoComplete="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          error={submitted && !username.trim() ? "Enter your username." : undefined}
+        />
         <Field
           label="Password"
           type="password"
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
+          error={submitted && !password ? "Enter your password." : undefined}
         />
         {error && (
           <p role="alert" className="rounded-2xl bg-pen-wash px-4 py-3 text-[15px]">
             {error}
           </p>
         )}
-        <Button type="submit" loading={busy} disabled={!username || !password} className="w-full">
+        <Button type="submit" loading={busy} className="w-full">
           Log in
         </Button>
       </form>
