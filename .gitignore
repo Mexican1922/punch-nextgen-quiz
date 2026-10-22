@@ -13,3 +13,6 @@ frontend/.env*
 !frontend/.env.example
 
 .DS_Store
+
+# Local scratch files
+docs/
