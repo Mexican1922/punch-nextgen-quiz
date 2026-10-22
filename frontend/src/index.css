@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 /*
- * Design tokens: "highlighter and red pen".
- * The world of a student's exercise book, in PUNCH's colours: yellow is the
- * highlighter that marks what you chose and what you earned, red is the
- * teacher's pen that marks your work.
+ * Design tokens: "highlighter and red pen", in the PUNCH brand.
+ * PUNCH red (from the masthead and punchng.com) is the brand colour: logo,
+ * main actions, and the teacher's pen that marks your work. Yellow, from the
+ * masthead's colour stripe, is the highlighter for what you chose and earned.
  */
 @theme {
   --color-ink: #16171b;
@@ -16,7 +16,10 @@
   --color-highlight: #ffd60a;
   --color-highlight-deep: #d9b300;
   --color-highlight-wash: #fff6c2;
-  --color-pen: #e3262f;
+  --color-punch: #ee1c23;      /* masthead red: logo and large shapes */
+  --color-punch-deep: #d71920; /* punchng.com button red: passes contrast with white text */
+  --color-punch-edge: #9e1016;
+  --color-pen: #d71920;
   --color-pen-wash: #fde9ea;
   --color-tick: #12a150;
   --color-tick-wash: #e3f6ea;

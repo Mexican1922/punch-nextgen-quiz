@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import QuizList from "../components/QuizList";
 import { StickerMark } from "../components/Sticker";
 import { topicIcon } from "../components/icons";
-import { ErrorState, PageLoader, ProgressBar, ordinal } from "../components/ui";
+import { ErrorState, PageLoader, PRIMARY_ACTION, ProgressBar, ordinal } from "../components/ui";
 import type { Dashboard as DashboardData, QuizSummary } from "../lib/types";
 import { useApi } from "../lib/useApi";
 
@@ -61,7 +61,7 @@ export default function Dashboard() {
             </div>
             <Link
               to={`/quizzes/${next.slug}`}
-              className="press inline-flex min-h-12 items-center justify-center rounded-2xl bg-highlight px-6 text-[17px] font-bold text-ink"
+              className={`inline-flex min-h-12 items-center justify-center rounded-2xl px-6 text-[17px] font-bold ${PRIMARY_ACTION}`}
             >
               Start quiz
             </Link>

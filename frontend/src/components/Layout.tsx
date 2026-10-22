@@ -71,7 +71,7 @@ export default function Layout() {
           >
             {({ isActive }) => (
               <>
-                <span className={`grid h-8 w-12 place-items-center rounded-full ${isActive ? "bg-highlight" : ""}`}>
+                <span className={`grid h-8 w-12 place-items-center rounded-full ${isActive ? "bg-punch text-white" : ""}`}>
                   <Icon aria-hidden className="h-5 w-5" strokeWidth={isActive ? 2.4 : 2} />
                 </span>
                 {label}

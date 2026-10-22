@@ -41,8 +41,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
 };
 
+/** The main action style, shared by buttons and by links that act as buttons. */
+export const PRIMARY_ACTION =
+  "press bg-punch-deep text-white [--press-edge:var(--color-punch-edge)] hover:bg-punch disabled:bg-rule disabled:text-ink-faint disabled:[--press-edge:#cfd2d9]";
+
 const VARIANTS = {
-  primary: "press bg-highlight text-ink hover:bg-[#ffdc2e] disabled:bg-rule disabled:text-ink-faint disabled:[--press-edge:#cfd2d9]",
+  primary: PRIMARY_ACTION,
   secondary: "press bg-paper text-ink outline-2 -outline-offset-2 outline-rule [--press-edge:var(--color-rule)] hover:outline-ink-faint disabled:text-ink-faint",
   quiet: "text-ink-soft hover:text-ink hover:bg-rule/60 disabled:text-ink-faint/60",
 };
@@ -62,9 +66,9 @@ export function Button({ variant = "primary", loading, children, className = "",
 }
 
 /** Wordmark. The "N" tile is the favicon; the name stays in plain text. */
-export function Logo({ size = "md", onYellow = false }: { size?: "md" | "lg"; onYellow?: boolean }) {
+export function Logo({ size = "md", onRed = false }: { size?: "md" | "lg"; onRed?: boolean }) {
   const tile = size === "lg" ? "h-10 w-10 text-xl" : "h-8 w-8 text-base";
-  const colours = onYellow ? "bg-ink text-highlight" : "bg-highlight text-ink";
+  const colours = onRed ? "bg-paper text-punch" : "bg-punch text-white";
   return (
     <span className="inline-flex items-center gap-2.5 font-extrabold tracking-tight">
       <span aria-hidden className={`grid place-items-center rounded-[10px] font-black ${colours} ${tile}`}>N</span>

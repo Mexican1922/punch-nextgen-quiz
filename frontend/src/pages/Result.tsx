@@ -1,6 +1,6 @@
 import { Link, useLocation, useParams } from "react-router-dom";
 import { StickerMark } from "../components/Sticker";
-import { ErrorState, PageLoader } from "../components/ui";
+import { ErrorState, PageLoader, PRIMARY_ACTION } from "../components/ui";
 import type { AttemptResult, SubmitResponse } from "../lib/types";
 import { useApi } from "../lib/useApi";
 
@@ -103,7 +103,7 @@ export default function Result() {
       </section>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-        <Link to="/" className="press inline-flex min-h-12 flex-1 items-center justify-center rounded-2xl bg-highlight px-6 text-[17px] font-bold text-ink">
+        <Link to="/" className={`inline-flex min-h-12 flex-1 items-center justify-center rounded-2xl px-6 text-[17px] font-bold ${PRIMARY_ACTION}`}>
           Back to home
         </Link>
         <Link

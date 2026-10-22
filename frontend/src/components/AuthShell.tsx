@@ -6,8 +6,8 @@ import { Logo } from "./ui";
 export default function AuthShell({ title, subtitle, children }: { title: string; subtitle: string; children: ReactNode }) {
   return (
     <div className="grid min-h-dvh lg:grid-cols-[1fr_1.1fr]">
-      <aside className="relative hidden flex-col justify-between overflow-hidden bg-highlight p-12 lg:flex">
-        <Logo size="lg" onYellow />
+      <aside className="relative hidden flex-col justify-between overflow-hidden bg-punch p-12 text-white lg:flex">
+        <Logo size="lg" onRed />
         <div>
           <p className="max-w-md text-6xl font-black leading-[0.95] tracking-tight">Tap in. Level up.</p>
           <p className="mt-5 max-w-sm text-xl font-medium">
