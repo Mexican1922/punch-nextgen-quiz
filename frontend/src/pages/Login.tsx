@@ -26,7 +26,7 @@ export default function Login() {
     } catch (err) {
       setError(
         err instanceof ApiError && err.status === 401
-          ? "That username and password don't match."
+          ? "That username and password don't match. Check them and try again."
           : (err as Error).message,
       );
     } finally {
@@ -35,7 +35,7 @@ export default function Login() {
   }
 
   return (
-    <AuthShell title="Welcome back" subtitle="Log in to keep your streak of learning going.">
+    <AuthShell title="Log in" subtitle="Pick up where you left off.">
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
         <Field label="Username" autoComplete="username" value={username} onChange={(e) => setUsername(e.target.value)} required />
         <Field
@@ -47,7 +47,7 @@ export default function Login() {
           required
         />
         {error && (
-          <p role="alert" className="rounded-xl bg-flame/15 px-4 py-3 text-sm text-red-200">
+          <p role="alert" className="rounded-2xl bg-pen-wash px-4 py-3 text-[15px]">
             {error}
           </p>
         )}
@@ -55,9 +55,9 @@ export default function Login() {
           Log in
         </Button>
       </form>
-      <p className="mt-6 text-center text-sm text-muted">
+      <p className="mt-8 text-center text-ink-soft">
         New here?{" "}
-        <Link to="/register" className="font-semibold text-sun hover:underline">
+        <Link to="/register" className="font-bold text-ink underline underline-offset-4">
           Create an account
         </Link>
       </p>

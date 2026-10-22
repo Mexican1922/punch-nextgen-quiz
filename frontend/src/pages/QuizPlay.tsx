@@ -1,3 +1,4 @@
+import { ChevronLeft, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, ErrorState, PageLoader } from "../components/ui";
@@ -36,7 +37,7 @@ export default function QuizPlay() {
     window.scrollTo({ top: 0 });
   }
 
-  // Keyboard: 1-4 picks an option, Enter/→ moves on, ← goes back.
+  // Keyboard: 1-4 picks an option, Enter or the right arrow moves on, left arrow goes back.
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (!question || submitting || e.target instanceof HTMLInputElement) return;
@@ -77,52 +78,56 @@ export default function QuizPlay() {
   if (error || !quiz)
     return (
       <div className="px-4 pt-16">
-        <ErrorState message={error?.status === 404 ? "We couldn't find that quiz." : error?.message ?? ""} onRetry={reload} />
-        <p className="mt-6 text-center"><Link to="/quizzes" className="text-sun hover:underline">Back to quizzes</Link></p>
+        <ErrorState message={error?.status === 404 ? "There's no quiz at this address." : error?.message ?? ""} onRetry={reload} />
+        <p className="mt-6 text-center">
+          <Link to="/quizzes" className="font-semibold underline underline-offset-4">Back to quizzes</Link>
+        </p>
       </div>
     );
 
-  const progress = Math.round((answeredCount / total) * 100);
-
   return (
-    <div className="mx-auto flex min-h-dvh max-w-2xl flex-col px-4 pb-8">
-      <header className="sticky top-0 z-10 -mx-4 bg-ink/90 px-4 pb-4 pt-4 backdrop-blur">
-        <div className="flex items-center justify-between gap-3">
-          <Link to="/" className="rounded-full border border-line px-3 py-1.5 text-sm font-semibold text-muted hover:text-white">
-            ✕ Exit
+    <div className="mx-auto flex min-h-dvh max-w-2xl flex-col px-4 pb-6">
+      <header className="sticky top-0 z-10 -mx-4 bg-page px-4 pb-3 pt-4">
+        <div className="flex items-center gap-3">
+          <Link to="/" aria-label="Leave quiz" title="Leave quiz" className="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-ink-soft hover:bg-rule/60 hover:text-ink">
+            <X aria-hidden className="h-6 w-6" />
           </Link>
-          <p className="truncate font-display font-extrabold">{quiz.title}</p>
-          <p className="text-sm font-semibold text-muted" aria-live="polite">
+          {/* One segment per question: filled when answered, outlined when it's the current one. */}
+          <ol
+            aria-label={`${answeredCount} of ${total} questions answered`}
+            className="flex flex-1 gap-1"
+          >
+            {questions.map((q, i) => (
+              <li
+                key={q.id}
+                className={`h-2.5 flex-1 rounded-full ${
+                  session.answers[q.id] ? "bg-highlight" : "bg-rule"
+                } ${i === session.index ? "ring-2 ring-ink ring-offset-1 ring-offset-page" : ""}`}
+              />
+            ))}
+          </ol>
+          <span className="w-14 shrink-0 text-right text-sm font-semibold tabular-nums text-ink-soft" aria-hidden>
             {answeredCount}/{total}
-          </p>
+          </span>
         </div>
-        <div
-          role="progressbar"
-          aria-label="Questions answered"
-          aria-valuemin={0}
-          aria-valuemax={total}
-          aria-valuenow={answeredCount}
-          className="mt-3 h-2 overflow-hidden rounded-full bg-ink-3"
-        >
-          <div className="h-full rounded-full bg-sun transition-[width] duration-300" style={{ width: `${progress}%` }} />
-        </div>
-        {quiz.completed && (
-          <p className="mt-3 rounded-xl bg-ink-3 px-3 py-2 text-xs text-muted">
-            You've already earned XP for this quiz. This is a practice run: your score is saved, but no extra XP.
-          </p>
-        )}
       </header>
 
+      {quiz.completed && (
+        <p className="mt-2 rounded-2xl bg-paper px-4 py-3 text-sm text-ink-soft">
+          You've already earned XP for this quiz, so this is a practice run. Your score is saved but won't add XP.
+        </p>
+      )}
+
       {!onReview && question ? (
-        <section key={question.id} className="animate-rise flex flex-1 flex-col" aria-labelledby="question-text">
-          <p className="mt-6 text-sm font-bold uppercase tracking-wider text-sun">
-            Question {session.index + 1} of {total}
+        <section key={question.id} className="flex flex-1 flex-col" aria-labelledby="question-text">
+          <p className="mt-6 font-semibold text-ink-soft">
+            {quiz.title}, question {session.index + 1} of {total}
           </p>
-          <h1 id="question-text" className="mt-2 font-display text-2xl font-extrabold leading-snug tracking-tight sm:text-3xl">
+          <h1 id="question-text" className="mt-2 text-[26px] font-extrabold leading-tight tracking-tight sm:text-3xl">
             {question.text}
           </h1>
 
-          <div role="radiogroup" aria-labelledby="question-text" className="mt-6 space-y-3">
+          <div role="radiogroup" aria-labelledby="question-text" className="mt-7 space-y-3">
             {question.choices.map((choice, i) => {
               const selected = session.answers[question.id] === choice.id;
               return (
@@ -131,48 +136,48 @@ export default function QuizPlay() {
                   role="radio"
                   aria-checked={selected}
                   onClick={() => choose(question.id, choice.id)}
-                  className={`flex w-full items-center gap-4 rounded-2xl border-2 p-4 text-left transition-colors ${
-                    selected ? "border-sun bg-sun/10" : "border-line bg-ink-2 hover:border-zinc-500"
+                  className={`press flex w-full items-center gap-4 rounded-2xl p-3.5 text-left ${
+                    selected
+                      ? "bg-highlight-wash outline-2 -outline-offset-2 outline-ink [--press-edge:var(--color-ink)]"
+                      : "bg-paper outline-2 -outline-offset-2 outline-transparent [--press-edge:var(--color-rule)] hover:outline-ink-faint"
                   }`}
                 >
                   <span
                     aria-hidden
-                    className={`grid h-9 w-9 shrink-0 place-items-center rounded-lg font-display font-black ${
-                      selected ? "bg-sun text-ink" : "bg-ink-3 text-muted"
+                    className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-[15px] font-black ${
+                      selected ? "bg-highlight text-ink" : "bg-page text-ink-soft"
                     }`}
                   >
                     {LETTERS[i]}
                   </span>
-                  <span className="text-base font-medium">{choice.text}</span>
+                  <span className="text-[17px] font-semibold">{choice.text}</span>
                 </button>
               );
             })}
           </div>
 
-          <p className="mt-4 h-5 text-sm text-mint" aria-live="polite">
-            {session.answers[question.id] ? "✓ Answer saved" : ""}
-          </p>
-
-          <div className="mt-auto flex gap-3 pt-6">
-            <Button variant="ghost" onClick={() => goTo(session.index - 1)} disabled={session.index === 0}>
-              Back
+          <div className="mt-auto flex gap-3 pt-10">
+            <Button variant="quiet" onClick={() => goTo(session.index - 1)} disabled={session.index === 0} aria-label="Previous question" className="px-3">
+              <ChevronLeft aria-hidden className="h-5 w-5" /> Back
             </Button>
             <Button className="flex-1" onClick={() => goTo(session.index + 1)} disabled={!session.answers[question.id]}>
-              {session.index === total - 1 ? "Review answers" : "Next"}
+              {session.index === total - 1 ? "Check my answers" : "Next question"}
             </Button>
           </div>
-          <p className="mt-3 hidden text-center text-xs text-muted sm:block">Tip: press 1–4 to choose, Enter to continue.</p>
+          <p className="mt-3 hidden text-center text-sm text-ink-faint sm:block">
+            Keys 1 to 4 pick an answer. Enter moves on.
+          </p>
         </section>
       ) : (
-        <section className="animate-rise flex flex-1 flex-col" aria-labelledby="review-heading">
-          <h1 id="review-heading" className="mt-6 font-display text-3xl font-black tracking-tight">Ready to submit?</h1>
-          <p className="mt-1 text-muted">
+        <section className="flex flex-1 flex-col" aria-labelledby="review-heading">
+          <h1 id="review-heading" className="mt-6 text-3xl font-black tracking-tight">Check your answers</h1>
+          <p className="mt-2 text-lg text-ink-soft">
             {answeredCount === total
-              ? "All questions answered. Tap a number to change an answer."
-              : `${total - answeredCount} question${total - answeredCount === 1 ? "" : "s"} still unanswered.`}
+              ? "Everything's answered. Tap a number to change an answer, or hand it in."
+              : `${total - answeredCount} still need an answer. Tap a number to go back to it.`}
           </p>
 
-          <ol className="mt-6 grid grid-cols-5 gap-2">
+          <ol className="mt-8 grid grid-cols-5 gap-2.5">
             {questions.map((q, i) => {
               const done = Boolean(session.answers[q.id]);
               return (
@@ -180,8 +185,8 @@ export default function QuizPlay() {
                   <button
                     onClick={() => goTo(i)}
                     aria-label={`Question ${i + 1}, ${done ? "answered" : "not answered"}`}
-                    className={`grid h-12 w-full place-items-center rounded-xl border-2 font-display font-extrabold ${
-                      done ? "border-sun/60 bg-sun/10 text-sun" : "border-flame/60 bg-flame/10 text-red-200"
+                    className={`grid h-14 w-full place-items-center rounded-2xl text-lg font-black ${
+                      done ? "bg-paper text-ink hover:outline-2 hover:-outline-offset-2 hover:outline-ink-faint" : "bg-pen-wash text-pen outline-2 -outline-offset-2 outline-pen"
                     }`}
                   >
                     {i + 1}
@@ -192,17 +197,17 @@ export default function QuizPlay() {
           </ol>
 
           {submitError && (
-            <p role="alert" className="mt-6 rounded-xl bg-flame/15 px-4 py-3 text-sm text-red-200">
+            <p role="alert" className="mt-6 rounded-2xl bg-pen-wash px-4 py-3 text-[15px] text-ink">
               {submitError}
             </p>
           )}
 
-          <div className="mt-auto flex gap-3 pt-8">
-            <Button variant="ghost" onClick={() => goTo(total - 1)} disabled={submitting}>
-              Back
+          <div className="mt-auto flex gap-3 pt-10">
+            <Button variant="quiet" onClick={() => goTo(total - 1)} disabled={submitting} className="px-3">
+              <ChevronLeft aria-hidden className="h-5 w-5" /> Back
             </Button>
             <Button className="flex-1" onClick={submit} loading={submitting} disabled={answeredCount !== total}>
-              {submitting ? "Marking your answers" : "Submit quiz"}
+              {submitting ? "Marking" : "Hand in quiz"}
             </Button>
           </div>
         </section>

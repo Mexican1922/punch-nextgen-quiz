@@ -35,13 +35,13 @@ export default function Register() {
   const ready = form.displayName.trim().length >= 2 && form.username.trim().length >= 3 && form.password.length >= 8;
 
   return (
-    <AuthShell title="Join NextGen" subtitle="Use a made-up name if you like. No real details needed.">
+    <AuthShell title="Create your account" subtitle="A nickname is fine. We don't need your real details.">
       <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        <Field label="Display name" autoComplete="nickname" maxLength={40} value={form.displayName} onChange={update("displayName")} hint="Shown on the leaderboard." />
+        <Field label="Display name" autoComplete="nickname" maxLength={40} value={form.displayName} onChange={update("displayName")} hint="This is what others see on the leaderboard." />
         <Field label="Username" autoComplete="username" maxLength={30} value={form.username} onChange={update("username")} hint="Letters, numbers, underscores or dots." />
-        <Field label="Password" type="password" autoComplete="new-password" value={form.password} onChange={update("password")} hint="At least 8 characters, not too common." />
+        <Field label="Password" type="password" autoComplete="new-password" value={form.password} onChange={update("password")} hint="At least 8 characters. Avoid common ones like password123." />
         {error && (
-          <p role="alert" className="rounded-xl bg-flame/15 px-4 py-3 text-sm text-red-200">
+          <p role="alert" className="rounded-2xl bg-pen-wash px-4 py-3 text-[15px]">
             {error}
           </p>
         )}
@@ -49,9 +49,9 @@ export default function Register() {
           Create account
         </Button>
       </form>
-      <p className="mt-6 text-center text-sm text-muted">
+      <p className="mt-8 text-center text-ink-soft">
         Already have an account?{" "}
-        <Link to="/login" className="font-semibold text-sun hover:underline">
+        <Link to="/login" className="font-bold text-ink underline underline-offset-4">
           Log in
         </Link>
       </p>

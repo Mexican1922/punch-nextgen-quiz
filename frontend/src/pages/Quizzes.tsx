@@ -1,4 +1,4 @@
-import QuizCard from "../components/QuizCard";
+import QuizList from "../components/QuizList";
 import { ErrorState, PageLoader } from "../components/ui";
 import type { QuizSummary } from "../lib/types";
 import { useApi } from "../lib/useApi";
@@ -11,12 +11,13 @@ export default function Quizzes() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl font-black tracking-tight">Quizzes</h1>
-      <p className="mt-1 text-muted">
-        10 XP for every correct answer, plus a 50 XP bonus for a perfect score. XP is awarded the first time you complete a quiz.
+      <h1 className="text-4xl font-black tracking-tight">Quizzes</h1>
+      <p className="mt-3 max-w-xl text-lg text-ink-soft">
+        Every correct answer earns 10 XP, and a perfect score adds a 50 XP bonus. You earn XP the first time you finish a
+        quiz, and you can practise it as often as you like after that.
       </p>
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {data?.map((q) => <QuizCard key={q.id} quiz={q} />)}
+      <div className="mt-8">
+        <QuizList quizzes={data ?? []} />
       </div>
     </div>
   );

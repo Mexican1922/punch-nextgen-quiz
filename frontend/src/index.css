@@ -1,48 +1,85 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens: "highlighter and red pen".
+ * The world of a student's exercise book, in PUNCH's colours: yellow is the
+ * highlighter that marks what you chose and what you earned, red is the
+ * teacher's pen that marks your work.
+ */
 @theme {
-  --color-ink: #0b0b0c;
-  --color-ink-2: #17171a;
-  --color-ink-3: #232328;
-  --color-line: #2e2e35;
-  --color-muted: #a1a1aa;
-  --color-sun: #ffd400;
-  --color-sun-2: #ffe55c;
-  --color-flame: #e3262f;
-  --color-mint: #22c55e;
-  --font-display: "Archivo", system-ui, sans-serif;
-  --font-sans: "Inter", system-ui, sans-serif;
+  --color-ink: #16171b;
+  --color-ink-soft: #4a4d57;
+  --color-ink-faint: #8a8e99;
+  --color-page: #f1f2f5;
+  --color-paper: #ffffff;
+  --color-rule: #e2e4e9;
+  --color-highlight: #ffd60a;
+  --color-highlight-deep: #d9b300;
+  --color-highlight-wash: #fff6c2;
+  --color-pen: #e3262f;
+  --color-pen-wash: #fde9ea;
+  --color-tick: #12a150;
+  --color-tick-wash: #e3f6ea;
+
+  --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
+  --font-hand: "Caveat", "Comic Sans MS", cursive;
+
+  --radius-sheet: 20px;
 }
 
 html {
-  background: var(--color-ink);
-  color: #f4f4f5;
+  background: var(--color-page);
+  color: var(--color-ink);
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
   font-family: var(--font-sans);
   min-height: 100dvh;
+  font-feature-settings: "ss01";
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-sun);
-  outline-offset: 2px;
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
 }
 
-@keyframes pop {
-  0% { transform: scale(0.6); opacity: 0; }
-  70% { transform: scale(1.08); opacity: 1; }
-  100% { transform: scale(1); }
+/* A highlighter stroke behind text: slightly uneven, like a real marker. */
+.highlight {
+  background: linear-gradient(104deg, transparent 0.6%, var(--color-highlight) 2.4%, var(--color-highlight) 97%, transparent 99%);
+  border-radius: 0.2em 0.5em 0.3em 0.6em;
+  padding: 0 0.18em;
+  margin: 0 -0.08em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
-.animate-pop { animation: pop 450ms cubic-bezier(.2,.9,.3,1.2) both; }
 
-@keyframes rise {
-  from { transform: translateY(8px); opacity: 0; }
-  to { transform: none; opacity: 1; }
+/* Chunky "press-down" buttons: a solid bottom edge that collapses on press. */
+.press {
+  box-shadow: 0 4px 0 var(--press-edge, var(--color-highlight-deep));
+  transition: transform 80ms ease, box-shadow 80ms ease, background-color 120ms ease;
 }
-.animate-rise { animation: rise 300ms ease-out both; }
+.press:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 var(--press-edge, var(--color-highlight-deep));
+}
+
+/* The one orchestrated motion: a sticker being pressed onto the page. */
+@keyframes stick {
+  0% { transform: scale(1.35) rotate(-14deg); opacity: 0; }
+  60% { transform: scale(0.94) rotate(var(--tilt, -4deg)); opacity: 1; }
+  100% { transform: scale(1) rotate(var(--tilt, -4deg)); }
+}
+.animate-stick { animation: stick 520ms cubic-bezier(.2,.8,.3,1.1) both; }
+
+/* The red pen drawing its circle around the score. */
+@keyframes draw {
+  from { stroke-dashoffset: var(--len); }
+  to { stroke-dashoffset: 0; }
+}
+.animate-draw { stroke-dasharray: var(--len); animation: draw 700ms ease-out 150ms both; }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-pop, .animate-rise { animation: none; }
+  .animate-stick, .animate-draw { animation: none; }
+  .press { transition: none; }
 }
