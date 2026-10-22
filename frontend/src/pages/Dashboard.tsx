@@ -36,15 +36,15 @@ export default function Dashboard() {
         </h1>
         <p className="mt-3 max-w-xl text-lg text-ink-soft">{summary(d, list.length)}</p>
 
-        <div className="mt-8 rounded-[var(--radius-sheet)] bg-paper p-5 sm:p-6">
+        <div className="mt-8 rounded-[var(--radius-sheet)] bg-punch-deep p-5 text-white sm:p-6">
           <div className="flex items-baseline justify-between gap-4">
             <p className="text-lg font-bold">
               Level {d.level}
               <span className="ml-3 text-3xl font-black tracking-tight sm:text-4xl">{d.xp} XP</span>
             </p>
-            <p className="text-right text-sm text-ink-soft">{100 - d.xp_into_level} XP to level {d.level + 1}</p>
+            <p className="text-right text-sm text-white/85">{100 - d.xp_into_level} XP to level {d.level + 1}</p>
           </div>
-          <ProgressBar value={d.xp_into_level} max={100} label={`Progress to level ${d.level + 1}`} className="mt-4" />
+          <ProgressBar value={d.xp_into_level} max={100} label={`Progress to level ${d.level + 1}`} onRed className="mt-4" />
         </div>
 
         {next && NextIcon && (

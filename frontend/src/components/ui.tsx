@@ -82,12 +82,14 @@ export function ProgressBar({
   max,
   label,
   tone = "highlight",
+  onRed = false,
   className = "",
 }: {
   value: number;
   max: number;
   label: string;
   tone?: "highlight" | "ink";
+  onRed?: boolean;
   className?: string;
 }) {
   const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
@@ -98,7 +100,7 @@ export function ProgressBar({
       aria-valuemin={0}
       aria-valuemax={max}
       aria-valuenow={value}
-      className={`h-3 w-full overflow-hidden rounded-full bg-rule ${className}`}
+      className={`h-3 w-full overflow-hidden rounded-full ${onRed ? "bg-black/20" : "bg-rule"} ${className}`}
     >
       <div
         className={`h-full rounded-full transition-[width] duration-500 ${tone === "ink" ? "bg-ink" : "bg-highlight"}`}

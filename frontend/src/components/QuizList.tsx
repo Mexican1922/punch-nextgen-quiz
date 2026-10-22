@@ -17,7 +17,7 @@ export default function QuizList({ quizzes }: { quizzes: QuizSummary[] }) {
               <span
                 aria-hidden
                 className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl ${
-                  quiz.completed ? "bg-page text-ink-soft" : "bg-highlight-wash text-ink"
+                  quiz.completed ? "bg-page text-ink-soft" : "bg-pen-wash text-punch-deep"
                 }`}
               >
                 <Icon className="h-6 w-6" />

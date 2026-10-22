@@ -101,7 +101,7 @@ export default function QuizPlay() {
               <li
                 key={q.id}
                 className={`h-2.5 flex-1 rounded-full ${
-                  session.answers[q.id] ? "bg-highlight" : "bg-rule"
+                  session.answers[q.id] ? "bg-punch" : "bg-rule"
                 } ${i === session.index ? "ring-2 ring-ink ring-offset-1 ring-offset-page" : ""}`}
               />
             ))}

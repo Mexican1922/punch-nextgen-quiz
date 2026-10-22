@@ -14,10 +14,10 @@ export default function Layout() {
 
   return (
     <div className="min-h-dvh pb-28 md:pb-16">
-      <header className="border-b border-rule">
+      <header className="bg-punch-deep text-white">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between gap-6 px-4">
           <NavLink to="/" aria-label="NextGen home">
-            <Logo />
+            <Logo onRed />
           </NavLink>
 
           <nav aria-label="Main" className="hidden flex-1 gap-1 md:flex">
@@ -28,7 +28,7 @@ export default function Layout() {
                 end={l.end}
                 className={({ isActive }) =>
                   `rounded-xl px-3.5 py-2 text-[15px] font-semibold ${
-                    isActive ? "bg-paper text-ink shadow-[0_1px_0_var(--color-rule)]" : "text-ink-soft hover:text-ink"
+                    isActive ? "bg-paper text-punch-deep" : "text-white/85 hover:bg-white/15 hover:text-white"
                   }`
                 }
               >
@@ -43,7 +43,7 @@ export default function Layout() {
               onClick={logout}
               aria-label="Log out"
               title="Log out"
-              className="grid h-10 w-10 place-items-center rounded-xl text-ink-soft hover:bg-rule/60 hover:text-ink"
+              className="grid h-10 w-10 place-items-center rounded-xl text-white/85 hover:bg-white/15 hover:text-white"
             >
               <LogOut aria-hidden className="h-5 w-5" />
             </button>
@@ -71,7 +71,7 @@ export default function Layout() {
           >
             {({ isActive }) => (
               <>
-                <span className={`grid h-8 w-12 place-items-center rounded-full ${isActive ? "bg-punch text-white" : ""}`}>
+                <span className={`grid h-8 w-12 place-items-center rounded-full ${isActive ? "bg-punch-deep text-white" : ""}`}>
                   <Icon aria-hidden className="h-5 w-5" strokeWidth={isActive ? 2.4 : 2} />
                 </span>
                 {label}

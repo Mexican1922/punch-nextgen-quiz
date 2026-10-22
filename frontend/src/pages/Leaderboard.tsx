@@ -12,7 +12,7 @@ function Row({ entry }: { entry: LeaderboardEntry }) {
     >
       <span
         className={`grid h-9 w-9 shrink-0 place-items-center rounded-full text-[15px] font-black tabular-nums ${
-          podium ? "bg-ink text-paper" : "text-ink-soft"
+          podium ? "bg-punch-deep text-white" : "text-ink-soft"
         }`}
       >
         <span className="sr-only">{ordinal(entry.rank)} place: </span>
