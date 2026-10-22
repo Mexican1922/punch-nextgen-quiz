@@ -70,6 +70,15 @@ DATABASES = {
     )
 }
 
+if DATABASES["default"]["ENGINE"] == "django.db.backends.sqlite3":
+    # SQLite (local only) has no row locks, so select_for_update does nothing
+    # and two simultaneous writes fail with "database is locked". IMMEDIATE
+    # takes the write lock when a transaction starts, and the timeout makes a
+    # second request wait its turn instead of erroring. PostgreSQL, used in
+    # production, locks the individual row instead.
+    DATABASES["default"]["CONN_MAX_AGE"] = 0
+    DATABASES["default"]["OPTIONS"] = {"transaction_mode": "IMMEDIATE", "timeout": 20}
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
