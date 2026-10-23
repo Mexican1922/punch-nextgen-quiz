@@ -3,8 +3,8 @@
 A mini quiz and rewards platform built for the **PUNCH NextGen Full-Stack Developer technical assessment**.
 Students register, take multiple-choice quizzes, earn XP and badges, and compete on a leaderboard.
 
-- **Live demo:** _add Vercel URL_
-- **API:** _add Render URL_
+- **Live demo:** https://nextgen-quiz.vercel.app
+- **API:** https://nextgen-quiz-api.onrender.com (health check: `/api/health/`)
 - **Walkthrough video:** _add link_
 - **Demo login:** `demo_student` / `NextGen-Demo-2026` (fictitious account; you can also register your own)
 
@@ -148,7 +148,20 @@ python manage.py test
 
 ## Use of AI tools
 
-As the brief allows, I used an AI coding assistant (Claude Code) to help write parts of this project. I directed the design, reviewed and tested all of the code, and can explain how every part works.
+As the brief allows, I used **Claude Code**, an AI coding assistant, throughout this project.
+
+**What I did**
+- Set the requirements and the core rules: XP is awarded only on a student's first completion of a quiz, and every submission carries an idempotency key so retries and double-clicks can't award XP twice.
+- Chose the stack (Django REST Framework and React, which I already work with) and the hosting (Render and Vercel).
+- Directed the design: rejected the first version of the UI and moved it to PUNCH's own brand colours, with red as the main colour.
+- Tested the deployed app and found issues, including a sign-up form that gave no feedback on weak passwords, which was then fixed.
+- Deployed the API and database on Render and the frontend on Vercel, and configured them to work together.
+
+**What the AI assistant did**
+- Wrote most of the code, working from my direction: the Django models, scoring service and API, the 33 tests, the React screens and styling, the seed content, and the deployment configuration.
+- Diagnosed and fixed bugs found during testing.
+
+I've reviewed the code and can walk through how any part of it works, particularly the scoring and duplicate-protection logic in `backend/quizzes/services.py`.
 
 ## Test data
 
