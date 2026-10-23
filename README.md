@@ -5,7 +5,7 @@ Students register, take multiple-choice quizzes, earn XP and badges, and compete
 
 - **Live demo:** https://nextgen-quiz.vercel.app
 - **API:** https://nextgen-quiz-api.onrender.com (health check: `/api/health/`)
-- **Walkthrough video:** _add link_
+- **Walkthrough video:** https://drive.google.com/file/d/1zG1jqqQDdNvgAJIOnfMJ-nIrSm4GsVLn/view
 - **Demo login:** `demo_student` / `NextGen-Demo-2026` (fictitious account; you can also register your own)
 
 > The free Render server sleeps when idle, so the first request after a while can take up to a minute.
